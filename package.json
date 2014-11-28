@@ -1,0 +1,52 @@
+{
+  "name": "webmbed",
+  "title": "WebMbed",
+  "id": "jid1-nBOYeVAV5N4oNw@jetpack",
+  "description": "WebMbed for vozForums is an extension for Firefox that embeds WebM videos in posts on vozForums (muted, looping indefinitely like a GIF)",
+  "license": "MIT",
+  "version": "0.0.1",
+  "preferences": [{
+    "name": "muted",
+    "title": "Mute",
+    "description": "Defines whether a WebM video should be muted when playing",
+    "type": "bool",
+    "value": true
+  }, {
+    "name": "loop",
+    "title": "Loop",
+    "description": "Plays the video in a loop",
+    "type": "bool",
+    "value": true
+  }, {
+    "name": "controls",
+    "title": "Show Controls",
+    "description": "Shows controls like volume, play button etc.",
+    "type": "bool",
+    "value": false
+  }, {
+    "name": "nsfw",
+    "title": "Show NSFW videos",
+    "description": "If set, show the splash image of videos marked NSFW",
+    "type": "bool",
+    "value": false
+  }, {
+    "name": "mode",
+    "title": "Video start behavior",
+    "description": "When autoplay is enabled, videos will automatically play when they become visible, and pause when they are not",
+    "type": "menulist",
+    "value": 0,
+    "options": [{
+      "value": "0",
+      "label": "Hover-to-play"
+    }, {
+      "value": "1",
+      "label": "Auto-play"
+    }, {
+      "value": "2",
+      "label": "Click-to-play"
+    }, {
+      "value": "3",
+      "label": "Hover-once-to-play"
+    }]
+  }]
+}
