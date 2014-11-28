@@ -24,7 +24,7 @@
       if (!/\.webm$/.test(url)) return;
 
       if (!prefs.nsfw && this.parentElement) {
-        var nsfw = /NSFW/i.test(this.parentElement.innerHTML);
+        var nsfw = /NSFW/i.test(this.nextSibling.data);
       }
 
       var video = $('<video>');
