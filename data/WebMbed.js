@@ -2,18 +2,16 @@
   'use strict';
   var $ = jQuery;
 
-  var $win = $(window);
-
-  var page = $('.page'),
-      thread = $('#collapseobj_threadreview'),
-      links = $('td.alt1 a');
+  var page = $('.page');
+  var thread = $('#collapseobj_threadreview');
+  var links = $('td.alt1 a');
 
   self.port.on('prefs', showVideos);
 
   function showVideos(prefs) {
     var videos = $([]);
 
-    $win.resize(resize);
+    $(window).resize(resize);
     setTimeout(resize, 50);
 
     links.each(function() {
@@ -25,15 +23,20 @@
 
       if (!/\.webm$/.test(url)) return;
 
-      var nsfw;
       if (!prefs.nsfw && this.parentElement) {
-        nsfw = /NSFW/i.test(this.parentElement.innerHTML);
+        var nsfw = /NSFW/i.test(this.parentElement.innerHTML);
       }
 
       var video = $('<video>');
 
       if (nsfw) {
-        video.css('background', 'url(' + prefs.nsfwImageURL + ') no-repeat center center / cover transparent');
+        video.css('background', [
+          'url(' + prefs.nsfwImageURL + ')',
+          'no-repeat',
+          'center',
+          'center / cover',
+          'transparent'
+        ].join(' '));
       }
 
       video.attr({
@@ -117,7 +120,7 @@
 
     function resize() {
       videos.each(function() {
-        var vpH = $win.width() - 30;
+        var vpH = $(window).width() - 30;
 
         if (page.get(0)) {
           this.css('max-width', Math.min(vpH, page.width() - 30) + 'px');
