@@ -23,8 +23,9 @@
 
       if (!/\.webm$/.test(url)) return;
 
-      if (!prefs.nsfw && this.parentElement) {
+      if (!prefs.nsfw && this.nextSibling) {
         var nsfw = /NSFW/i.test(this.nextSibling.data);
+        this.nextSibling.data = this.nextSibling.data.replace(/NSFW/i, '');
       }
 
       var video = $('<video>');
