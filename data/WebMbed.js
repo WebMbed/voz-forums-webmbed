@@ -25,7 +25,9 @@
 
       if (!prefs.nsfw && this.nextSibling) {
         var nsfw = /NSFW/i.test(this.nextSibling.data);
-        this.nextSibling.data = this.nextSibling.data.replace(/NSFW/i, '');
+        if (this.nextSibling.data) {
+          this.nextSibling.data = this.nextSibling.data.replace(/NSFW/i, '');
+        }
       }
 
       var video = $('<video>');
