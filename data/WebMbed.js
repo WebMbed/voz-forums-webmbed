@@ -57,15 +57,7 @@
 
       if (!nsfw && (prefs.mode === 0 || prefs.mode === 3)) {
         video.on('mouseenter', function() {
-          var self = this;
-
-          stopEverything();
-
-          self.play();
-
-          stopEverything = function() {
-            self.pause();
-          };
+          this.play();
         });
 
         if (prefs.mode === 0) {
@@ -77,36 +69,20 @@
 
       if (!video.controls) {
         video.on('click', function() {
-          var self = this;
-
-          if (self.paused) {
-            stopEverything();
-
-            self.play();
-
-            stopEverything = function() {
-              self.pause();
-            };
+          if (this.paused) {
+            this.play();
           } else {
-            self.pause();
+            this.pause();
           }
         });
       }
 
       if (prefs.mode === 1 && !nsfw) {
         video.on('inview', function(event, inview) {
-          var self = this;
-
           if (inview) {
-            stopEverything();
-
-            self.play();
-
-            stopEverything = function() {
-              self.pause();
-            };
+            this.play();
           } else {
-            self.pause();
+            this.pause();
           }
         });
       }
@@ -124,11 +100,13 @@
           marginBottom: '2px'
         });
 
-        button.click(function() {
+        button.click(function toggleMute() {
           if (video.prop('muted')) {
+            stopEverything();
             video.prop('muted', null);
             button.attr('src', prefs.muteImageURL);
             button.attr('title', 'Disable audio');
+            stopEverything = toggleMute;
           } else {
             video.prop('muted', true);
             button.attr('src', prefs.unmuteImageURL);
