@@ -5,6 +5,7 @@
   var page = $('.page');
   var thread = $('#collapseobj_threadreview');
   var links = $('td.alt1 a');
+  var stopEverything = function() {};
 
   self.port.on('prefs', showVideos);
 
@@ -56,7 +57,15 @@
 
       if (!nsfw && (prefs.mode === 0 || prefs.mode === 3)) {
         video.on('mouseenter', function() {
-          this.play();
+          var self = this;
+
+          stopEverything();
+
+          self.play();
+
+          stopEverything = function() {
+            self.pause();
+          };
         });
 
         if (prefs.mode === 0) {
@@ -68,20 +77,36 @@
 
       if (!video.controls) {
         video.on('click', function() {
-          if (this.paused) {
-            this.play();
+          var self = this;
+
+          if (self.paused) {
+            stopEverything();
+
+            self.play();
+
+            stopEverything = function() {
+              self.pause();
+            };
           } else {
-            this.pause();
+            self.pause();
           }
         });
       }
 
       if (prefs.mode === 1 && !nsfw) {
         video.on('inview', function(event, inview) {
+          var self = this;
+
           if (inview) {
-            this.play();
+            stopEverything();
+
+            self.play();
+
+            stopEverything = function() {
+              self.pause();
+            };
           } else {
-            this.pause();
+            self.pause();
           }
         });
       }
