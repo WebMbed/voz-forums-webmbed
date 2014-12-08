@@ -103,16 +103,24 @@
         button.click(function toggleMute() {
           if (video.prop('muted')) {
             stopEverything();
-            video.prop('muted', null);
-            button.attr('src', prefs.muteImageURL);
-            button.attr('title', 'Disable audio');
-            stopEverything = toggleMute;
+            unmute();
+            stopEverything = mute;
           } else {
-            video.prop('muted', true);
-            button.attr('src', prefs.unmuteImageURL);
-            button.attr('title', 'Enable audio');
+            mute();
           }
         });
+
+        function unmute() {
+          video.prop('muted', null);
+          button.attr('src', prefs.muteImageURL);
+          button.attr('title', 'Disable audio');
+        }
+
+        function mute() {
+          video.prop('muted', true);
+          button.attr('src', prefs.unmuteImageURL);
+          button.attr('title', 'Enable audio');
+        }
 
         video.before(button);
 
