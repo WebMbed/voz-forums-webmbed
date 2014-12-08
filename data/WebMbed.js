@@ -110,18 +110,6 @@
           }
         });
 
-        function unmute() {
-          video.prop('muted', null);
-          button.attr('src', prefs.muteImageURL);
-          button.attr('title', 'Disable audio');
-        }
-
-        function mute() {
-          video.prop('muted', true);
-          button.attr('src', prefs.unmuteImageURL);
-          button.attr('title', 'Enable audio');
-        }
-
         video.before(button);
 
         video.on('loadeddata', function() {
@@ -129,6 +117,18 @@
             button.css('display', 'block');
           }
         });
+      }
+
+      function unmute() {
+        video.prop('muted', null);
+        button.attr('src', prefs.muteImageURL);
+        button.attr('title', 'Disable audio');
+      }
+
+      function mute() {
+        video.prop('muted', true);
+        button.attr('src', prefs.unmuteImageURL);
+        button.attr('title', 'Enable audio');
       }
     });
 
