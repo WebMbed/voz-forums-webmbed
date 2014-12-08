@@ -5,7 +5,7 @@
   var page = $('.page');
   var thread = $('#collapseobj_threadreview');
   var links = $('td.alt1 a');
-  var stopEverything = function() {};
+  var muteRemainingUnmuted = function() {};
 
   self.port.on('prefs', showVideos);
 
@@ -102,9 +102,9 @@
 
         button.click(function toggleMute() {
           if (video.prop('muted')) {
-            stopEverything();
+            muteRemainingUnmuted();
             unmute();
-            stopEverything = mute;
+            muteRemainingUnmuted = mute;
           } else {
             mute();
           }
