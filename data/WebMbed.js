@@ -57,15 +57,7 @@
 
       if (!nsfw && (prefs.mode === 0 || prefs.mode === 3)) {
         video.on('mouseenter', function() {
-          var self = this;
-
-          stopEverything();
-
-          self.play();
-
-          stopEverything = function() {
-            self.pause();
-          };
+          this.play();
         });
 
         if (prefs.mode === 0) {
@@ -77,34 +69,18 @@
 
       if (!video.controls) {
         video.on('click', function() {
-          var self = this;
-
-          if (self.paused) {
-            stopEverything();
-
-            self.play();
-
-            stopEverything = function() {
-              self.pause();
-            };
+          if (this.paused) {
+            this.play();
           } else {
-            self.pause();
+            this.pause();
           }
         });
       }
 
       if (prefs.mode === 1 && !nsfw) {
         video.on('inview', function(event, inview) {
-          var self = this;
-
           if (inview) {
-            stopEverything();
-
-            self.play();
-
-            stopEverything = function() {
-              self.pause();
-            };
+            this.play();
           } else {
             this.pause();
           }
