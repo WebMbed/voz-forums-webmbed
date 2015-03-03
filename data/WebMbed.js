@@ -36,6 +36,11 @@
           this.previousSibling.data =
             this.previousSibling.data.replace(/NSFW/i, '');
         }
+
+        if (!nsfw && this.parentElement.childNodes[1]) {
+          nsfw = this.parentElement.childNodes[1].nodeName === 'BR' &&
+            /NSFW/i.text(this.parentElement.firstChild.data);
+        }
       }
 
       var video = $('<video>');
