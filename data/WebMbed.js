@@ -39,7 +39,7 @@
 
         if (!nsfw && this.parentElement.childNodes[1]) {
           nsfw = this.parentElement.childNodes[1].nodeName === 'BR' &&
-            /NSFW/i.text(this.parentElement.firstChild.data);
+            /NSFW/i.test(this.parentElement.firstChild.data);
         }
       }
 
