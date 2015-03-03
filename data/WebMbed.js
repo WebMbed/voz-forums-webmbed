@@ -24,10 +24,17 @@
 
       if (!/\.webm$/.test(url)) return;
 
-      if (!prefs.nsfw && this.nextSibling) {
-        var nsfw = /NSFW/i.test(this.nextSibling.data);
-        if (this.nextSibling.data) {
+      var nsfw = false;
+      if (!prefs.nsfw) {
+        if (this.nextSibling && this.nextSibling.data) {
+          nsfw = /NSFW/i.test(this.nextSibling.data);
           this.nextSibling.data = this.nextSibling.data.replace(/NSFW/i, '');
+        }
+
+        if (!nsfw && this.previousSibling && this.previousSibling.data) {
+          nsfw = /NSFW/i.test(this.previousSibling.data);
+          this.previousSibling.data =
+            this.previousSibling.data.replace(/NSFW/i, '');
         }
       }
 
