@@ -53,6 +53,8 @@
           'center / cover',
           'transparent'
         ].join(' '));
+
+        video.css('border', '1px solid red');
       }
 
       video.attr({
