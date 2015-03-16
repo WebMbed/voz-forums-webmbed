@@ -50,7 +50,7 @@
           'url(' + prefs.nsfwImageURL + ')',
           'no-repeat',
           'center',
-          'center / cover',
+          'center / contain',
           'transparent'
         ].join(' '));
 
