@@ -43,106 +43,113 @@
         }
       }
 
-      var video = $('<video>');
-
       if (nsfw) {
-        video.css('background', [
-          'url(' + prefs.nsfwImageURL + ')',
-          'no-repeat',
-          'center',
-          'center / contain',
-          'transparent'
-        ].join(' '));
-
-        video.css('border', '1px solid red');
+        displayNSFWWarning(this);
+      } else {
+        makeVideo(this);
       }
 
-      video.attr({
-        src: url,
-        preload: 'metadata',
-        poster: nsfw ? prefs.transparentImageURL : null
-      });
+      function displayNSFWWarning(that) {
+        var button = $('<button>Show NSFW Content</button>');
 
-      video.prop({
-        controls: prefs.controls,
-        loop: prefs.loop,
-        muted: prefs.muted || null
-      });
+        button.addClass('webmbed-nsfw-button');
 
-      if (!nsfw && (prefs.mode === 0 || prefs.mode === 3)) {
-        video.on('mouseenter', function() {
-          this.play();
+        $(that).replaceWith(box);
+
+        button.click(function() {
+          makeVideo(button);
+        });
+      }
+
+      function makeVideo(that) {
+        var video = $('<video>');
+
+        video.attr({
+          src: url,
+          preload: 'metadata'
         });
 
-        if (prefs.mode === 0) {
-          video.on('mouseleave', function() {
-            this.pause();
+        video.prop({
+          controls: prefs.controls,
+          loop: prefs.loop,
+          muted: prefs.muted || null
+        });
+
+        if (!nsfw && (prefs.mode === 0 || prefs.mode === 3)) {
+          video.on('mouseenter', function() {
+            this.play();
+          });
+
+          if (prefs.mode === 0) {
+            video.on('mouseleave', function() {
+              this.pause();
+            });
+          }
+        }
+
+        if (!video.controls) {
+          video.on('click', function() {
+            if (this.paused) {
+              this.play();
+            } else {
+              this.pause();
+            }
           });
         }
-      }
 
-      if (!video.controls) {
-        video.on('click', function() {
-          if (this.paused) {
-            this.play();
-          } else {
-            this.pause();
-          }
-        });
-      }
+        if (prefs.mode === 1 && !nsfw) {
+          video.on('inview', function(event, inview) {
+            if (inview) {
+              this.play();
+            } else {
+              this.pause();
+            }
+          });
+        }
 
-      if (prefs.mode === 1 && !nsfw) {
-        video.on('inview', function(event, inview) {
-          if (inview) {
-            this.play();
-          } else {
-            this.pause();
-          }
-        });
-      }
+        $(that).replaceWith(video);
+        videos.push(video);
 
-      $(this).replaceWith(video);
-      videos.push(video);
+        if (prefs.muted) {
+          var button = $('<img>');
+          button.attr('src', prefs.unmuteImageURL);
+          button.attr('title', 'Enable audio');
 
-      if (prefs.muted) {
-        var button = $('<img>');
-        button.attr('src', prefs.unmuteImageURL);
-        button.attr('title', 'Enable audio');
+          button.css({
+            display: 'none',
+            marginBottom: '2px'
+          });
 
-        button.css({
-          display: 'none',
-          marginBottom: '2px'
-        });
+          button.click(function toggleMute() {
+            if (video.prop('muted')) {
+              muteRemainingUnmuted();
+              unmute();
+              muteRemainingUnmuted = mute;
+            } else {
+              mute();
+            }
+          });
 
-        button.click(function toggleMute() {
-          if (video.prop('muted')) {
-            muteRemainingUnmuted();
-            unmute();
-            muteRemainingUnmuted = mute;
-          } else {
-            mute();
-          }
-        });
+          video.before(button);
 
-        video.before(button);
+          video.on('loadeddata', function() {
+            if (this.mozHasAudio) {
+              button.css('display', 'block');
+            }
+          });
+        }
 
-        video.on('loadeddata', function() {
-          if (this.mozHasAudio) {
-            button.css('display', 'block');
-          }
-        });
-      }
+        function unmute() {
+          video.prop('muted', null);
+          button.attr('src', prefs.muteImageURL);
+          button.attr('title', 'Disable audio');
+        }
 
-      function unmute() {
-        video.prop('muted', null);
-        button.attr('src', prefs.muteImageURL);
-        button.attr('title', 'Disable audio');
-      }
-
-      function mute() {
-        video.prop('muted', true);
-        button.attr('src', prefs.unmuteImageURL);
-        button.attr('title', 'Enable audio');
+        function mute() {
+          video.prop('muted', true);
+          button.attr('src', prefs.unmuteImageURL);
+          button.attr('title', 'Enable audio');
+        }
       }
     });
 
