@@ -54,7 +54,7 @@
 
         button.addClass('webmbed-nsfw-button');
 
-        $(that).replaceWith(box);
+        $(that).replaceWith(button);
 
         button.click(function() {
           makeVideo(button);
