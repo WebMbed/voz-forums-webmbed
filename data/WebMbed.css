@@ -1,3 +1,5 @@
 .webmbed-nsfw-button {
-    background: #777;
+  border: 0;
+  border-radius: 3px;
+  padding: 10px;
 }
